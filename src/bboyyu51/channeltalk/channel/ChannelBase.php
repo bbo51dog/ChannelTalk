@@ -12,6 +12,7 @@ abstract class ChannelBase{
     /** @var string */
     protected $name;
 
+    /** @var string */
     protected $member;
 
     /** 
@@ -20,7 +21,5 @@ abstract class ChannelBase{
      * @param Player $sender
      * @param string $message
      */
-    public function send(Player $sender, string $message): void{
-        
-    }
+    abstract public function send(Player $sender, string $message): void;
 }

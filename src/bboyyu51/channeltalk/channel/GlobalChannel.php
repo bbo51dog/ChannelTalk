@@ -2,13 +2,12 @@
 
 namespace bboyyu51\channeltalk\channel;
 
-use pocketmine\Player;
+class GlobalChannel extends ChannelBase{
 
-class GlobalChannel{
-
-    /** @var int */
     protected $id = 0;
+    protected $name = "Global"
 
-    /** @var string */
-    protected $name = "Global";
+    public function __construct(array $member){
+        $this->member = $member;
+    }
 }

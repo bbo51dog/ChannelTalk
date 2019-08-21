@@ -2,6 +2,9 @@
 
 namespace bboyyu51\channeltalk;
 
+use pocketmine\utils\Config;
+use bboyyu51\channeltalk\channel\ChannelBase;
+
 class TalkManager{
     
     /** @var self */
@@ -16,7 +19,21 @@ class TalkManager{
         return self::$instance;
     }
     
-    public function __construct(){
+    /** @var ChannelBase[] */
+    private $channel;
+    
+    /** @var Config */
+    private $db;
+    
+    public function __construct(Config $db){
+        if($db->exist("channel")){
+            foreach($db->get("channel") as $channel){
+                
+            }
+        }else{
+            
+        }
+        $this->db = $db;
         self::$instance = $this;
     }
 }

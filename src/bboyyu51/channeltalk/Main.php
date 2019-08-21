@@ -3,10 +3,11 @@
 namespace bboyyu51\channeltalk;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 
 class Main extends PlugunBase{
     public function onEnable(){
-        new TalkManager();
+        new TalkManager(new Config($this->getDataFolder()."Data.yml", Config::YAML));
     }
     
     /**
