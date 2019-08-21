@@ -2,6 +2,6 @@
 
 namespace bboyyu51\channeltalk\channel;
 
-class Channel{
-
+abstract class ChannelBase{
+    
 }
