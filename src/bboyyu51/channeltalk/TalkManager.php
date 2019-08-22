@@ -69,6 +69,10 @@ class TalkManager{
         }
         return null;
     }
+
+    public function getChannels(): array{
+        return $this->channel;
+    }
     
     public function getChannelByPlayer(string $name): ?Channel{
         foreach($this->channel as $channel){
