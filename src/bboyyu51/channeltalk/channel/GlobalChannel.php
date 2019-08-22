@@ -6,7 +6,7 @@ class GlobalChannel extends ChannelBase{
 
     protected $name = "Global"
 
-    public function __construct(array $members){
+    public function __construct(array $members = []){
         foreach($members as $member){
             $this->member[] = strtolower($member);
         }
