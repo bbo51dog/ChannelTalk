@@ -4,6 +4,8 @@ namespace bboyyu51\channeltalk;
 
 use pocketmine\utils\Config;
 use bboyyu51\channeltalk\channel\ChannelBase;
+use bboyyu51\channeltalk\channel\Channel;
+use bboyyu51\channeltalk\channel\GlobalChannel;
 
 class TalkManager{
     
@@ -19,8 +21,11 @@ class TalkManager{
         return self::$instance;
     }
     
-    /** @var ChannelBase[] */
-    private $channel;
+    /** @var Channel[] */
+    private $channel = [];
+    
+    /** @var GlobalChannel */
+    private $global;
     
     /** @var Config */
     private $db;
@@ -28,10 +33,14 @@ class TalkManager{
     public function __construct(Config $db){
         if($db->exist("channel")){
             foreach($db->get("channel") as $channel){
-                
+                if($channel["name"] === "Global"){
+                    $this->global = new GlobalChannel($channel["member"]);
+                    continue;
+                }
+                $this->channel[] = new Channel($channel["member"]);
             }
         }else{
-            
+            $this->global = new GlobalChannel([]);
         }
         $this->db = $db;
         self::$instance = $this;
