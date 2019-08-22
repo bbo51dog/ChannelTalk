@@ -4,3 +4,6 @@ main: bboyyu51\channeltalk\Main
 version: DEVELOPING
 despriction: Talk in channel plugin
 author: bboyyu51
+permissions:
+  command.channel:  
+    default: true

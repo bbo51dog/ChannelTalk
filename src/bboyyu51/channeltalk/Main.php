@@ -9,7 +9,8 @@ class Main extends PlugunBase{
     public function onEnable(){
         new TalkManager(new Config($this->getDataFolder()."Data.yml", Config::YAML));
          $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
-    }
+         $this->getServer()->getCommandMap()->register("channel", new ChannelCommand());
+    } 
     
     public function onDisable(){
         TalkManager::getInatance()->save();
