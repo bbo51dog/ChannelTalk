@@ -3,6 +3,7 @@
 namespace bboyyu51\channeltalk\channel;
 
 use pocketmine\Player;
+use pocketmine\Server;
 
 abstract class ChannelBase{
 
@@ -18,7 +19,15 @@ abstract class ChannelBase{
      * @param Player $sender
      * @param string $message
      */
-    abstract public function send(Player $sender, string $message): void;
+    public function send(Player $sender, string $message): void{
+        foreach($this->member as $member){
+            $player = Server::getInstance()->getPlayer($member);
+            if(!$player instanceof Player){
+                continue;
+            }
+            $player->sendMessage($sender->getDisplayName." ".$message);
+        }
+    }
 
     public function getName(): string{
         return $this->name;
