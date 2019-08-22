@@ -10,6 +10,10 @@ class Main extends PlugunBase{
         new TalkManager(new Config($this->getDataFolder()."Data.yml", Config::YAML));
     }
     
+    public function onDisable(){
+        TalkManager::getInatance()->save();
+    }
+    
     /**
      * Get TalkManager instance
      * 
