@@ -8,6 +8,7 @@ use pocketmine\utils\Config;
 class Main extends PlugunBase{
     public function onEnable(){
         new TalkManager(new Config($this->getDataFolder()."Data.yml", Config::YAML));
+         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
     }
     
     public function onDisable(){
