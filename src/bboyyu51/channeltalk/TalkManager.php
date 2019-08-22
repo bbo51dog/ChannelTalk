@@ -79,6 +79,10 @@ class TalkManager{
         return null;
     }
 
+    public function getGlobal(): GlobalChannel{
+        return $this->global;
+    }
+
     public function makeChannel(string $namme): bool{
         if($this->getChannel($name) !== null){
             return false;
