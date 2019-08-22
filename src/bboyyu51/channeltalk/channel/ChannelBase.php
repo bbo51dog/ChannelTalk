@@ -6,9 +6,6 @@ use pocketmine\Player;
 
 abstract class ChannelBase{
 
-    /** @var int */
-    protected $id;
-
     /** @var string */
     protected $name;
 
