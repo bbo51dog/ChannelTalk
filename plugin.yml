@@ -1,7 +1,7 @@
 name: ChannelTalk
 api: [3.0.0]
 main: bbo51dog\channeltalk\ChannelTalkPlugin
-version: 1.0.0
+version: 2.0.0-dev
 despriction: Talk in channel plugin
 author: bbo51dog
 permissions:
