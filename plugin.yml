@@ -1,9 +1,9 @@
 name: ChannelTalk
 api: [3.0.0]
-main: bboyyu51\channeltalk\Main
+main: bbo51dog\channeltalk\ChannelTalkPlugin
 version: 1.0.0
 despriction: Talk in channel plugin
-author: bboyyu51
+author: bbo51dog
 permissions:
   command.channel:  
     default: true

@@ -1,11 +1,11 @@
 <?php
 
-namespace bboyyu51\channeltalk;
+namespace bbo51dog\channeltalk;
 
 use pocketmine\utils\Config;
-use bboyyu51\channeltalk\channel\ChannelBase;
-use bboyyu51\channeltalk\channel\Channel;
-use bboyyu51\channeltalk\channel\GlobalChannel;
+use bbo51dog\channeltalk\channel\ChannelBase;
+use bbo51dog\channeltalk\channel\Channel;
+use bbo51dog\channeltalk\channel\GlobalChannel;
 
 class TalkManager{
     

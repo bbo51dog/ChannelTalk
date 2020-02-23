@@ -1,11 +1,11 @@
 <?php
 
-namespace bboyyu51\channeltalk;
+namespace bbo51dog\channeltalk;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-use bboyyu51\channeltalk\channel\Channel;
+use bbo51dog\channeltalk\channel\Channel;
 
 class EventListener implements Listener{
     public function onChat(PlayerChatEvent $event){

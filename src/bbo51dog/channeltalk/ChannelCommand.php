@@ -1,6 +1,6 @@
 <?php
 
-namespace  bboyyu51\channeltalk;
+namespace bbo51dog\channeltalk;
 
 use pocketmine\Player;
 use pocketmine\command\Command;
