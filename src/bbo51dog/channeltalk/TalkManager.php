@@ -31,7 +31,7 @@ class TalkManager{
     private $db;
     
     public function __construct(Config $db){
-        if($db->exist("channel")){
+        if($db->exists("channel")){
             foreach($db->get("channel") as $channel){
                 if($channel["name"] === "Global"){
                     $this->global = new GlobalChannel($channel["member"]);
