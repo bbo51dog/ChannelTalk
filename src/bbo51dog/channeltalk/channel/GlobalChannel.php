@@ -4,7 +4,7 @@ namespace bbo51dog\channeltalk\channel;
 
 class GlobalChannel extends ChannelBase{
 
-    protected $name = "Global"
+    protected $name = "Global";
 
     public function __construct(array $members = []){
         foreach($members as $member){

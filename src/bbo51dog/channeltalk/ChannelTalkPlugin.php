@@ -14,7 +14,7 @@ class ChannelTalkPlugin extends PluginBase{
     } 
     
     public function onDisable(){
-        TalkManager::getInatance()->save();
+        TalkManager::getInstance()->save();
     }
     
     /**
@@ -23,6 +23,6 @@ class ChannelTalkPlugin extends PluginBase{
      * @return TalkManager
      */
     public function getManager(): TalkManager{
-        return TalkManager::getInatance();
+        return TalkManager::getInstance();
     }
 }
