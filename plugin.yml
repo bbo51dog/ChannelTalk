@@ -1,7 +1,7 @@
 name: ChannelTalk
 api: [3.0.0]
 main: bboyyu51\channeltalk\Main
-version: DEVELOPING
+version: 1.0.0
 despriction: Talk in channel plugin
 author: bboyyu51
 permissions:
