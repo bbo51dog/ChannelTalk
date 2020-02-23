@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
 class ChannelTalkPlugin extends PluginBase{
+
     public function onEnable(){
         new TalkManager(new Config($this->getDataFolder()."Data.yml", Config::YAML));
          $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);

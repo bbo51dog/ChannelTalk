@@ -8,6 +8,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use bbo51dog\channeltalk\channel\Channel;
 
 class EventListener implements Listener{
+
     public function onChat(PlayerChatEvent $event){
         $event->setCancelled();
         $player = $event->getPlayer();
