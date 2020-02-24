@@ -9,24 +9,31 @@ use bbo51dog\channeltalk\channel\Channel;
 
 class EventListener implements Listener{
 
+    /** @var TalkManager */
+    private $manager;
+
+    public function __construct(TalkManager $manager){
+        $this->manager = $manager;
+    }
+
     public function onChat(PlayerChatEvent $event){
         $event->setCancelled();
         $player = $event->getPlayer();
         $message = $event->getMessage();
-        $channel = TalkManager::getInstance()->getChannelByPlayer($player->getName());
+        $channel = $this->manager->getChannelByPlayer($player->getName());
         if($channel instanceof Channel){
             $channel->send($player, $message);
         }else{
-            TalkManager::getInstance()->getGlobal()->send($player, $message);
+            $this->manager->getGlobal()->send($player, $message);
         }
     }
     
     public function onJoin(PlayerJoinEvent $event){
         $player = $event->getPlayer();
-        $channel = TalkManager::getInstance()->getChannelByPlayer($player->getName());
+        $channel = $this->manager->getChannelByPlayer($player->getName());
         if($channel instanceof Channel){
             return;
         }
-        TalkManager::getInstance()->getGlobal()->addMember($player->getName());
+        $this->manager->getGlobal()->addMember($player->getName());
     }
 }

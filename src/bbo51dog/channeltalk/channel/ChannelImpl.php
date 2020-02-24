@@ -5,13 +5,20 @@ namespace bbo51dog\channeltalk\channel;
 use pocketmine\Player;
 use pocketmine\Server;
 
-abstract class ChannelBase{
+class ChannelImpl implements Channel{
 
     /** @var string */
     protected $name;
 
     /** @var string[] */
     protected $member = [];
+    
+    public function __construct(string $name, array $members = []){
+        foreach($members as $member){
+            $this->member[] = strtolower($member);
+        }
+        $this->name = strtolower($name);
+    }
 
     /** 
      * Send message to channel

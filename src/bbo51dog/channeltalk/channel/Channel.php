@@ -2,12 +2,25 @@
 
 namespace bbo51dog\channeltalk\channel;
 
-class Channel extends ChannelBase{
+use pocketmine\Player;
 
-    public function __construct(string $name, array $members = []){
-        foreach($members as $member){
-            $this->member[] = strtolower($member);
-        }
-        $this->name = $name;
-    }
+interface Channel{
+
+    public function __construct(string $name, array $members = []);
+    
+    /** 
+     * Send message to channel
+     * 
+     * @param Player $sender
+     * @param string $message
+     */
+    public function send(Player $sender, string $message): void;
+
+    public function getName(): string;
+    
+    public function getMember(): array;
+    
+    public function addMember(string $name): void;
+    
+    public function removeMember(string $name): void;
 }

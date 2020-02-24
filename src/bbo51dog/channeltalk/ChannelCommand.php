@@ -9,15 +9,19 @@ use pocketmine\command\CommandSender;
 class MoneyCommand extends Command{
     
     private const USAGE = "Usage: /channel < join | exit | info | list | global >";
-    private const USAGE_OP = "Usage: /channel < join | exit | info | list | global | make | remove >";
+    private const USAGE_OP = "Usage: /channel < join | exit | info | list | global | make | delete >";
     
-    public function __construct(){
+    /** @var TalkManager */
+    private $manager;
+    
+    public function __construct(TalkManager $manager){
         parent::__construct("channel", "Channel Talk Commands", "/channel");
         $this->setPermission("command.channel");
+        $this->manager = $manager;
     }
     
     public function execute(CommandSender $sender, string $commandLabel, array $args){
-        $manager = TalkManager::getInstance();
+        $manager = $this->manager;
         $name = $sender->getName();
         $global = $manager->getGlobal();
         if(!$sender instanceof Player){
@@ -103,22 +107,25 @@ class MoneyCommand extends Command{
                     $sender->sendMessage("Usage: /channel make <name>");
                     break;
                 }
-                if($manager->makeChannel($atgs[1])){
-                    $sender->sendMessage("チャンネルを作成しました");
-                }else{
+                if($manager->exists($args[1])){
                     $sender->sendMessage("既にチャンネルが存在します");
+                    break;
                 }
+                $manager->registerChannel($args[1]);
+                $sender->sendMessage("チャンネルを作成しました");
                 break;
 
             case "remove":
+                if(empty($args[1])){
                     $sender->sendMessage("Usage: /channel remove <name>");
                     break;
                 }
-                if($manager->removeChannel($atgs[1])){
-                    $sender->sendMessage("チャンネルを削除しました");
-                }else{
+                if($manager->exists($args[1])){
                     $sender->sendMessage("チャンネルが存在しません");
+                    break;
                 }
+                $manager->deleteChannel($args[1]);
+                $sender->sendMessage("チャンネルを削除しました");
                 break;
 
             default:

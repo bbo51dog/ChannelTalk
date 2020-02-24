@@ -2,24 +2,16 @@
 
 namespace bbo51dog\channeltalk;
 
-use pocketmine\utils\Config;
 use bbo51dog\channeltalk\channel\ChannelBase;
 use bbo51dog\channeltalk\channel\Channel;
+use bbo51dog\channeltalk\channel\ChannelImpl;
 use bbo51dog\channeltalk\channel\GlobalChannel;
+use bbo51dog\channeltlk\repository\ChannelRepository;
 
 class TalkManager{
     
     /** @var self */
     private static $instance;
-    
-    /** 
-     * Get TalkManager instance
-     *
-     * @return self
-     */
-    public static function getInstance(): self{
-        return self::$instance;
-    }
     
     /** @var Channel[] */
     private $channel = [];
@@ -27,81 +19,56 @@ class TalkManager{
     /** @var GlobalChannel */
     private $global;
     
-    /** @var Config */
-    private $db;
+    /** @var ChannelRepository */
+    private $repo;
     
-    public function __construct(Config $db){
-        if($db->exists("channel")){
-            foreach($db->get("channel") as $channel){
-                if($channel["name"] === "Global"){
-                    $this->global = new GlobalChannel($channel["member"]);
-                    continue;
-                }
-                $this->channel[] = new Channel($channel["name"], $channel["member"]);
-            }
-        }else{
-            $this->global = new GlobalChannel();
+    public function __construct(ChannelRepository $repo){
+        $this->repo = $repo;
+        if(!$this->repo->exists('global')){
+            $this->registerChannel('global');
         }
-        $this->db = $db;
-        self::$instance = $this;
     }
     
-    public function save(): void{
-        foreach($this->channel as $channel){
-            $data["channel"][] = [
-                "name" => $channel->getName(),
-                "member" => $channel->getMember(),
-            ];
-        }
-        $data["channel"][] = [
-            "name" => $this->global->getName(),
-            "member" => $this->global->getMember(),
-        ];
-        $this->db->setAll($data);
-        $this->db->save();
-    }
-    
-    public function getChannel(string $name): ?Channel{
-        foreach($this->channel as $channel){
-            if($channel->getName() === $name){
-                return $channel;
-            }
-        }
-        return null;
+    public function getChannel(string $name): Channel{
+        return $this->repo->getChannel($name);
     }
 
-    public function getChannels(): array{
-        return $this->channel;
+    public function getAllChannels(): array{
+        return $this->repo->getAllChannels();
     }
     
     public function getChannelByPlayer(string $name): ?Channel{
-        foreach($this->channel as $channel){
+        foreach($this->getAllChannels() as $channel){
             if(in_array(strtolower($name), $channel->getMember())){
                 return $channel;
             }
         }
         return null;
     }
-
-    public function getGlobal(): GlobalChannel{
-        return $this->global;
+    
+    public function exists(string $name): bool{
+        return $this->repo->exists($name);
     }
 
-    public function makeChannel(string $namme): bool{
-        if($this->getChannel($name) !== null){
-            return false;
+    public function getGlobal(): Channel{
+        return $this->repo->getChannel('global');
+    }
+
+    public function registerChannel(string $name): void{
+        if($this->exists($name)){
+            throw new ChannelTalkException('Channel already registered');
         }
-        $this->channel[] = new Channel($name);
-        return true;
+        $this->repo->registerChannel(new Channel($name, []));
     }
     
-    public function removeChannel(string $name): bool{
-        foreach($this->channel as $key => $channel){
-            if($channel->getName() === $name){
-                $this->channel = array_splice($this->channel, $key, 1);
-                return true;
-            }
+    public function deleteChannel(string $name): void{
+        if(strtolower($name) === 'global'){
+            throw new ChannelTalkException('Global channel cannot be deleted');
         }
-        return false;
+        if(!$this->exists($name)){
+            throw new ChannelTalkException('Channel not found');
+        }
+        $channel = $this->repo->getChannel($name);
+        $this->repo->deleteChannel($channel);
     }
 }
