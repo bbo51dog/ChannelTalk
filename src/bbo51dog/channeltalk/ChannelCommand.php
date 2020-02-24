@@ -6,7 +6,7 @@ use pocketmine\Player;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
-class MoneyCommand extends Command{
+class ChannelCommand extends Command{
     
     private const USAGE = "Usage: /channel < join | exit | info | list | global >";
     private const USAGE_OP = "Usage: /channel < join | exit | info | list | global | make | delete >";
