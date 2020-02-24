@@ -17,7 +17,7 @@ class SQLiteChannelRepository implements ChannelRepository{
         $this->db = $db;
         $this->db->exec('CREATE TABLE IF NOT EXISTS channel(
             name TEXT NOT NULL PRIMARY KEY,
-            member TETX NOT NULL,
+            member TETX NOT NULL
         )');
     }
 
@@ -25,17 +25,20 @@ class SQLiteChannelRepository implements ChannelRepository{
         if(!$this->exists($name)){
             throw new ChannelTalkException('Channel not found');
         }
-        $stmt = $this->db->prepare('SELECT member FROM channel WHERE = :name');
+        $stmt = $this->db->prepare('SELECT member FROM channel WHERE name = :name');
         $stmt->bindValue(':name', $name);
         $result = $stmt->execute()->fetchArray();
         return $this->createChannel($name, unserialize($result['member']));
     }
     
     public function getAllChannels(): array{
-        $result = $this->db->query('SELECT * FORM channel');
+        $result = $this->db->query('SELECT * FROM channel');
         $channels = [];
         for($data = $result->fetchArray(); !$data; $data = $result->fetchArray()){
-            $channels[$name] = $this->createChannel($data['name'], unserialize($data['member']));
+            if($data['name'] === 'global'){
+                continue;
+            }
+            $channels[$data['name']] = $this->createChannel($data['name'], unserialize($data['member']));
         }
         return $channels;
     }
@@ -55,7 +58,7 @@ class SQLiteChannelRepository implements ChannelRepository{
             throw new ChannelTalkException('Channel not found');
         }
         $stmt = $this->db->prepare('UPDATE channel SET member = :member WHERE name = :name');
-        $stmt->bindValue(':member', serialzie($channel->getMember()));
+        $stmt->bindValue(':member', serialize($channel->getMember()));
         $stmt->execute();
     }
     
@@ -65,9 +68,9 @@ class SQLiteChannelRepository implements ChannelRepository{
         $stmt->execute();
     }
     
-    public function exists(string $name): void{
+    public function exists(string $name): bool{
         $stmt = $this->db->prepare('SELECT COUNT(*) AS count FROM channel WHERE name = :name');
-        $stmt->bind_param(':name', strtolower($name));
+        $stmt->bindValue(':name', strtolower($name));
         $result = $stmt->execute()->fetchArray();
         return $result['count'] === 1;
     }

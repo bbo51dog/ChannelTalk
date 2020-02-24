@@ -2,6 +2,7 @@
 
 namespace bbo51dog\channeltalk;
 
+use bbo51dog\channeltalk\repository\ChannelRepository;
 use bbo51dog\channeltalk\repository\RepositoryProvider;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;

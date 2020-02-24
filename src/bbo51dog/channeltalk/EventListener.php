@@ -7,6 +7,8 @@ use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use bbo51dog\channeltalk\channel\Channel;
 
+use pocketmine\utils\MainLogger;
+
 class EventListener implements Listener{
 
     /** @var TalkManager */
@@ -24,7 +26,10 @@ class EventListener implements Listener{
         if($channel instanceof Channel){
             $channel->send($player, $message);
         }else{
-            $this->manager->getGlobal()->send($player, $message);
+            $global = $this->manager->getGlobal();
+            $global->send($player, $message);
+            $global->addMember($player->getName());
+            $this->manager->saveChannel($global);
         }
     }
     
@@ -34,6 +39,8 @@ class EventListener implements Listener{
         if($channel instanceof Channel){
             return;
         }
-        $this->manager->getGlobal()->addMember($player->getName());
+        $global = $this->manager->getGlobal();
+        $global->addMember($player->getName());
+        $this->manager->saveChannel($global);
     }
 }

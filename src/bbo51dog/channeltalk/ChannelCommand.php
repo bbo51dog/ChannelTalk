@@ -28,6 +28,14 @@ class ChannelCommand extends Command{
             $sender->sendMessage("サーバー内で使用してください");
             return;
         }
+        if(empty($args[0])){
+            if($sender->isOp()){
+                $sender->sendMessage(self::USAGE_OP);
+            }else{
+                $sender->sendMessage(self::USAGE);
+            }
+            return;
+        }
         switch($args[0]){
             case "join":
                 if(empty($args[1])){
@@ -44,6 +52,7 @@ class ChannelCommand extends Command{
                     break;
                 }
                 $channel->addMember($name);
+                $this->manager->saveChannel($channel);
                 $sender->sendMessage("チャンネルに参加しました");
                 break;
 
@@ -55,6 +64,8 @@ class ChannelCommand extends Command{
                 }
                 $channel->removeMember($name);
                 $global->addMember($name);
+                $this->manager->saveChannel($channel);
+                $this->manager->saveChannel($global);
                 $sender->sendMessage("チャンネルから退出しました");
                 break;
 
@@ -90,17 +101,20 @@ class ChannelCommand extends Command{
                 switch($args[1]){
                     case "on":
                         $global->addMember($name);
+                        $this->manager->saveChannel($global);
                         $sender->sendMessage("グローバルチャットを有効にしました");
                         break 2;
 
                     case "off":
                         $global->removeMember($name);
+                        $this->manager->saveChannel($global);
                         $sender->sendMessage("グローバルチャットを無効にしました");
                         break 2;
 
                     default:
                         $sender->sendMessage($usage);
                         break 2;
+                }
 
             case "make":
                 if(empty($args[1])){

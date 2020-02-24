@@ -6,7 +6,7 @@ use bbo51dog\channeltalk\channel\ChannelBase;
 use bbo51dog\channeltalk\channel\Channel;
 use bbo51dog\channeltalk\channel\ChannelImpl;
 use bbo51dog\channeltalk\channel\GlobalChannel;
-use bbo51dog\channeltlk\repository\ChannelRepository;
+use bbo51dog\channeltalk\repository\ChannelRepository;
 
 class TalkManager{
     
@@ -31,6 +31,10 @@ class TalkManager{
     
     public function getChannel(string $name): Channel{
         return $this->repo->getChannel($name);
+    }
+    
+    public function saveChannel(Channel $channel): void{
+        $this->repo->updateChannel($channel);
     }
 
     public function getAllChannels(): array{
@@ -58,7 +62,7 @@ class TalkManager{
         if($this->exists($name)){
             throw new ChannelTalkException('Channel already registered');
         }
-        $this->repo->registerChannel(new Channel($name, []));
+        $this->repo->registerChannel(new ChannelImpl($name, []));
     }
     
     public function deleteChannel(string $name): void{

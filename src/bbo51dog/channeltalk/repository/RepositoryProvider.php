@@ -3,7 +3,7 @@
 namespace bbo51dog\channeltalk\repository;
 
 use SQLite3;
-use bbo51dog\channeltalk\repository\sqlite\SQQLiteChannelRepository;
+use bbo51dog\channeltalk\repository\sqlite\SQLiteChannelRepository;
 
 class RepositoryProvider{
 
@@ -19,6 +19,6 @@ class RepositoryProvider{
     }
 
     public function createChannelRepository(): ChannelRepository{
-        return new ChannelRepository($this->db);
+        return new SQLiteChannelRepository($this->db);
     }
 }

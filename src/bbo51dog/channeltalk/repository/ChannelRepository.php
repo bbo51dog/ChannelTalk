@@ -2,9 +2,9 @@
 
 namespace bbo51dog\channeltalk\repository;
 
-use bbo51dog\channeltalk\channel\Channel
+use bbo51dog\channeltalk\channel\Channel;
 
-interface ChannelTalk extends Repository{
+interface ChannelRepository extends Repository{
 
     public function getChannel(string $name): Channel;
     
@@ -16,5 +16,5 @@ interface ChannelTalk extends Repository{
     
     public function deleteChannel(Channel $channel): void;
     
-    public function exists(string $name): void;
+    public function exists(string $name): bool;
 }

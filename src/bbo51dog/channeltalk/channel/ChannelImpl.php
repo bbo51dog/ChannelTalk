@@ -46,7 +46,7 @@ class ChannelImpl implements Channel{
     
     public function addMember(string $name): void{
         $name = strtolower($name);
-        if(!in_array($name, $member)){
+        if(!in_array($name, $this->member)){
             $this->member[] = $name;
         }
     }
